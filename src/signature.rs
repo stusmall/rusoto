@@ -196,13 +196,14 @@ impl <'a> SignedRequest <'a> {
             }
         }
 
+/*
         self.remove_header("content-type");
         let ct = match self.content_type {
             Some(ref h) => h.to_string(),
             None => String::from("application/octet-stream")
         };
 
-        self.add_header("content-type", &ct);
+        self.add_header("content-type", &ct);*/
 
         // use the hashed canonical request to build the string to sign
         let hashed_canonical_request = to_hexdigest(&canonical_request);

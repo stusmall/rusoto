@@ -168,6 +168,14 @@ impl Member {
     pub fn tag_name(&self) -> String {
         self.location_name.clone().unwrap_or(self.shape.clone())
     }
+
+    pub fn deprecated(&self) -> bool {
+        self.deprecated.unwrap_or(false)
+    }
+
+    pub fn streaming(&self) -> bool {
+        self.streaming.unwrap_or(false)
+    }
 }
 
 #[derive(Debug, Deserialize)]
@@ -256,6 +264,7 @@ impl<'a> Shape {
     pub fn exception(&self) -> bool {
         self.exception.unwrap_or(false)
     }
+
 }
 
 #[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq)]
