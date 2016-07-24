@@ -53,7 +53,7 @@ pub fn generate_source(service: &Service) -> String {
 
 fn generate<P, E>(service: &Service, protocol_generator: P, error_type_generator: E) -> String where P: GenerateProtocol,  E: GenerateErrorTypes {
     format!(
-        "
+        "#[allow(warnings)]
         use hyper::Client;
         use hyper::client::RedirectPolicy;
         use request::DispatchSignedRequest;

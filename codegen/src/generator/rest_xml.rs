@@ -268,7 +268,7 @@ fn generate_response_tag_name<'a>(member_name: &'a str) -> Cow<'a, str> {
     if member_name.ends_with("Result") {
         format!("{}Response", &member_name[..member_name.len()-6]).into()
     } else {
-		/// is botocore just flat-out wrong about this name?  are we missing something?
+		// is botocore just flat-out wrong about this name?  are we missing something?
     	match member_name {
     		"ListBucketsOutput" => "ListAllMyBucketsResult".into(),
 	        _ => member_name.into()
@@ -519,18 +519,46 @@ fn generate_serializer_body(shape: &Shape) -> String {
 
 fn generate_serializer_signature(name: &str, shape: &Shape) -> String {
     if &shape.shape_type[..] == "structure" && shape.members.as_ref().unwrap().is_empty() {
-        format!("fn serialize(_name: &str, _obj: &{}) -> String", name)
+        format!("
+        	#[allow(unused_variables, warnings)]
+        	fn serialize(name: &str, obj: &{}) -> String", name)
     } else {
-        format!("fn serialize(_name: &str, _obj: &{}) -> String", name)
+        format!("
+        	#[allow(unused_variables, warnings)]
+        	fn serialize(name: &str, obj: &{}) -> String", name)
     }
 }
 
-fn generate_primitive_serializer(_shape: &Shape) -> String {
-	"String::new()".to_string()
+fn generate_primitive_serializer(shape: &Shape) -> String {
+	 let value_str = match &shape.shape_type[..] {
+	 	"blob" => "String::from_utf8(obj.to_vec()).expect(\"Not a UTF-8 string\")",
+	 	_ => "obj.to_string()"
+	 };
+	 format!("format!(\"<{{name}}>{{value}}</{{name}}>\", 
+			    name = name, 
+				value = {value_str})",
+				value_str = value_str)
+
 }
 
-fn generate_list_serializer(_shape: &Shape) -> String {
-    "String::new()".to_string()
+fn generate_list_serializer(shape: &Shape) -> String {
+	let member = shape.member.as_ref().unwrap();
+	let element_type = &generate_member_name(shape);
+	let location_name = match member.location_name {
+		Some(ref name) => name,
+		None => element_type
+	};
+    format!("
+    	let mut parts: Vec<String> = Vec::new();
+    	parts.push(format!(\"<{{}}>\", name));
+    	for element in obj {{
+    		parts.push({element_type}Serializer::serialize(\"{location_name}\", element));
+    	}}
+    	parts.push(format!(\"</{{}}>\", name));
+    	parts.join(\"\\n\")
+    	",
+    	element_type = element_type,
+    	location_name = location_name)
 }
 
 fn generate_map_serializer(_shape: &Shape) -> String {
