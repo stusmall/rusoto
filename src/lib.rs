@@ -57,6 +57,7 @@ extern crate time;
 extern crate url;
 extern crate xml;
 
+
 pub use credential::{
     AwsCredentials,
     ChainProvider,

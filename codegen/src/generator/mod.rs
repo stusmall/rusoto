@@ -165,9 +165,11 @@ where P: GenerateProtocol {
             type_name = "S3Error".to_owned();
         }
 
+        /*
         if type_name == "String" {
             return protocol_generator.generate_support_types(&type_name, shape, &service);
         }
+        */
 
         if shape.exception() {
             return None;

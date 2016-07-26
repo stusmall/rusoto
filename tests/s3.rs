@@ -5,7 +5,6 @@ extern crate rusoto;
 #[macro_use] 
 extern crate log;
 
-
 use rusoto::s3::S3Client;
 use rusoto::{DefaultCredentialsProvider, Region};
 
@@ -15,6 +14,6 @@ fn should_list_buckets() {
     let credentials = DefaultCredentialsProvider::new().unwrap();
     let client = S3Client::new(credentials, Region::UsEast1);
 
-	let result = client.list_buckets().unwrap();
-    debug!("{:#?}", result);
+	client.list_buckets().unwrap();
 }
+
