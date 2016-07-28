@@ -1,5 +1,7 @@
 //! Mock request dispatcher for unit testing services
 use super::{DispatchSignedRequest, HttpResponse, HttpDispatchError, SignedRequest};
+use std::fs::File;
+use std::io::Read;
 
 pub struct MockRequestDispatcher {
 	mock_response: HttpResponse,

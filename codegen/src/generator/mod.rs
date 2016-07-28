@@ -182,10 +182,10 @@ where P: GenerateProtocol {
         }
 
         match shape.shape_type {
-            ShapeType::Structure => parts.push(generate_struct(service, type_name, shape, protocol_generator)),
-            ShapeType::Map => parts.push(generate_map(type_name, shape)),
-            ShapeType::List => parts.push(generate_list(type_name, shape)),
-            shape_type => parts.push(generate_primitive_type(type_name, shape_type, protocol_generator.timestamp_type())),
+            ShapeType::Structure => parts.push(generate_struct(service, &type_name, shape, protocol_generator)),
+            ShapeType::Map => parts.push(generate_map(&type_name, shape)),
+            ShapeType::List => parts.push(generate_list(&type_name, shape)),
+            shape_type => parts.push(generate_primitive_type(&type_name, shape_type, protocol_generator.timestamp_type())),
         }
 
         if let Some(support_types) = protocol_generator.generate_support_types(&type_name, shape, &service) {
