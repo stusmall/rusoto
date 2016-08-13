@@ -182,28 +182,29 @@ impl <'a> SignedRequest <'a> {
             }
             Some(payload) => {
                 // This is hashing the payload twice, booo:
+                let digest = to_hexdigest(payload);
                 canonical_request = format!("{}\n{}\n{}\n{}\n{}\n{}",
                     &self.method,
                     self.canonical_uri,
                     self.canonical_query_string,
                     canonical_headers,
                     signed_headers,
-                    &to_hexdigest(payload));
+                    &digest);
                 self.remove_header("x-amz-content-sha256");
-                self.add_header("x-amz-content-sha256", &to_hexdigest(payload));
+                self.add_header("x-amz-content-sha256", &digest);
                 self.remove_header("content-length");
                 self.add_header("content-length", &format!("{}", payload.len()));
             }
         }
 
-/*
+
         self.remove_header("content-type");
         let ct = match self.content_type {
             Some(ref h) => h.to_string(),
             None => String::from("application/octet-stream")
         };
 
-        self.add_header("content-type", &ct);*/
+        self.add_header("content-type", &ct);
 
         // use the hashed canonical request to build the string to sign
         let hashed_canonical_request = to_hexdigest(&canonical_request);
