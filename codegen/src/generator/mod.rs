@@ -119,15 +119,7 @@ where P: GenerateProtocol {
 }
 
 fn generate_list(name: &str, shape: &Shape) -> String {
-
-    let mut type_name = capitalize_first(shape.member().to_string());
-
-    //TODO: not this
-    if type_name == "Error" {
-        type_name = "S3Error".to_owned();
-    }
-
-    format!("pub type {} = Vec<{}>;", name, type_name)
+    format!("pub type {} = Vec<{}>;", name, mutate_type_name(shape.member()))
 }
 
 fn generate_map(name: &str, shape: &Shape) -> String {
@@ -155,28 +147,43 @@ fn generate_primitive_type(name: &str, shape_type: ShapeType, for_timestamps: &s
     format!("pub type {} = {};", name, primitive_type)
 }
 
+// do any type name mutation needed to avoid collisions
+fn mutate_type_name(type_name: &str) -> String{
+
+    let capitalized = capitalize_first(type_name.to_owned());
+
+    match &capitalized[..] {
+        // S3 has an 'Error' shape that collides with Rust's Error trait
+        "Error" => "S3Error".to_string(),
+
+        // EC2 has a CancelSpotFleetRequestsError struct, avoid collision with our error enum
+        "CancelSpotFleetRequests" => "EC2CancelSpotFleetRequests".to_owned(),
+
+        // otherwise make sure it's rust-idiomatic and capitalized
+        _ => capitalized
+    }
+
+}
+
 fn generate_types<P>(service: &Service, protocol_generator: &P) -> String
 where P: GenerateProtocol {
     service.shapes.iter().filter_map(|(name, shape)| {
-        let mut type_name = capitalize_first(name.to_string());
 
-        //TODO: not this
-        if type_name == "Error" {
-            type_name = "S3Error".to_owned();
-        }
+        let type_name = mutate_type_name(name);
 
-        /*
+        // Don't generate a new type for String, but do generate serializers and deserializers for it
         if type_name == "String" {
             return protocol_generator.generate_support_types(&type_name, shape, &service);
         }
-        */
 
+        // We generate enums for error types, so no need to create model objects for them
         if shape.exception() {
             return None;
         }
 
         let mut parts = Vec::with_capacity(3);
 
+        // If botocore includes documentation, clean it up a bit and use it
         if let Some(ref docs) = shape.documentation {
             parts.push(format!("#[doc=\"{}\"]", docs.replace("\\","\\\\").replace("\"", "\\\"")));
         }
@@ -245,7 +252,7 @@ fn generate_struct_fields<P>(service: &Service, shape: &Shape, shape_name: &str,
             lines.push(format!("#[doc=\"{}\"]", docs.replace("\\","\\\\").replace("\"", "\\\"")));
         }
 
-        let type_name = capitalize_first(member.shape.to_string());
+        let type_name = mutate_type_name(&member.shape);
 
         lines.push("#[allow(unused_attributes)]".to_owned());
         lines.push(format!("#[serde(rename=\"{}\")]", member_name));
@@ -281,11 +288,8 @@ fn generate_struct_fields<P>(service: &Service, shape: &Shape, shape_name: &str,
 
 impl Operation {
     pub fn error_type_name(&self) -> String {
-        match &self.name[..] {
-            // EC2 has a different struct type called CancelSpotFleetRequestsError
-            "CancelSpotFleetRequests" => "CancelSpotFleetRequestsErrorType".to_owned(),
-            _ => format!("{}Error", self.name)
-        }
+        let type_name = mutate_type_name(&self.name);
+        format!("{}Error", type_name)
     }
 }
 
