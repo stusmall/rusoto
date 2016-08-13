@@ -12,7 +12,6 @@ mod test {
     // sample response from the S3 documentation
     // tests the model generation and deserialization end-to-end
     fn should_parse_sample_list_buckets_response() {
-        let credentials = DefaultCredentialsProvider::new().unwrap();
         let mock = MockRequestDispatcher::with_status(200)
             .with_body(r#"
             <?xml version="1.0" encoding="UTF-8"?>
@@ -41,7 +40,7 @@ mod test {
                 assert_eq!(request.payload, None);
             });
 
-        let client = S3Client::with_request_dispatcher(mock, credentials, Region::UsEast1);
+        let client = S3Client::with_request_dispatcher(mock, MockCredentialsProvider, Region::UsEast1);
         let result = client.list_buckets().unwrap();
 
         let owner = result.owner.unwrap();

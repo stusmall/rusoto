@@ -1,7 +1,19 @@
-//! Mock request dispatcher for unit testing services
+//! Mock request dispatcher and credentials for unit testing services
 use super::{DispatchSignedRequest, HttpResponse, HttpDispatchError, SignedRequest};
+use super::{ProvideAwsCredentials, CredentialsError, AwsCredentials};
+use chrono::{Duration, UTC};
 use std::fs::File;
 use std::io::Read;
+
+const ONE_DAY: i64 = 86400;
+
+pub struct MockCredentialsProvider;
+
+impl ProvideAwsCredentials for MockCredentialsProvider {
+    fn credentials(&self) -> Result<AwsCredentials, CredentialsError> {
+		Ok(AwsCredentials::new("mock_key", "mock_secret", None, UTC::now() + Duration::seconds(ONE_DAY)))
+    }
+}
 
 pub struct MockRequestDispatcher {
 	mock_response: HttpResponse,
