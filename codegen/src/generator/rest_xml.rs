@@ -53,7 +53,7 @@ impl GenerateProtocol for RestXmlGenerator {
                 operation_name = &operation.name,
                 error_type = operation.error_type_name(),
                 request_uri = &operation.http.request_uri.replace("+",""),
-                serialize_input = generate_method_serialization(service, operation).unwrap_or("".to_string()),
+                serialize_input = generate_method_input_serialization(service, operation).unwrap_or("".to_string()),
                 modify_uri = generate_uri_modification(service, operation).unwrap_or("".to_string()),
                 set_headers = generate_headers(service, operation).unwrap_or("".to_string()),
                 set_parameters = generate_parameters(service, operation).unwrap_or("".to_string()),
@@ -142,7 +142,7 @@ fn generate_documentation(operation: &Operation) -> String {
     }
 }
 
-fn generate_method_serialization(service: &Service, operation: &Operation) -> Option<String> {
+fn generate_method_input_serialization(service: &Service, operation: &Operation) -> Option<String> {
 
 	// nothing to do if there's no input type
 	if operation.input.is_none() {
@@ -393,7 +393,7 @@ fn generate_method_signature(operation: &Operation) -> String {
 fn generate_deserializer_body(name: &str, shape: &Shape) -> String {
     match shape.shape_type {
         ShapeType::List => generate_list_deserializer(shape),
-        ShapeType::Map => generate_map_deserializer(shape),        
+        ShapeType::Map => generate_map_deserializer(shape),
         ShapeType::Structure => generate_struct_deserializer(name, shape),
         _ => generate_primitive_deserializer(shape),
     }
