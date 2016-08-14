@@ -181,7 +181,6 @@ impl <'a> SignedRequest <'a> {
                 self.add_header("x-amz-content-sha256", &to_hexdigest(""));
             }
             Some(payload) => {
-                // This is hashing the payload twice, booo:
                 let digest = to_hexdigest(payload);
                 canonical_request = format!("{}\n{}\n{}\n{}\n{}\n{}",
                     &self.method,

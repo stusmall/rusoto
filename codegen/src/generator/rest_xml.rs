@@ -27,6 +27,7 @@ impl GenerateProtocol for RestXmlGenerator {
 					let mut request = SignedRequest::new(\"{http_method}\", \"{endpoint_prefix}\", self.region, &request_uri);
 
 					{set_headers}
+                    {set_parameters}
 
 					if payload.is_some() {{
 						request.set_payload(Some(payload.as_ref().unwrap().as_slice()));
@@ -52,9 +53,10 @@ impl GenerateProtocol for RestXmlGenerator {
                 operation_name = &operation.name,
                 error_type = operation.error_type_name(),
                 request_uri = &operation.http.request_uri.replace("+",""),
-                serialize_input = generate_method_input_serialization(service, operation).unwrap_or("".to_string()),
+                serialize_input = generate_method_serialization(service, operation).unwrap_or("".to_string()),
                 modify_uri = generate_uri_modification(service, operation).unwrap_or("".to_string()),
                 set_headers = generate_headers(service, operation).unwrap_or("".to_string()),
+                set_parameters = generate_parameters(service, operation).unwrap_or("".to_string()),
                 parse_response = generate_response_parser(service, operation)
             )
         }).collect::<Vec<String>>().join("\n")
@@ -135,12 +137,12 @@ impl GenerateProtocol for RestXmlGenerator {
 
 fn generate_documentation(operation: &Operation) -> String {
     match operation.documentation {
-        Some(ref docs) => format!("#[doc=\"{}\"]", docs.replace("\"", "\\\"").replace("C:\\", "C:\\\\")),
+        Some(ref docs) => format!("#[doc=\"{}\"]", docs.replace("\"", "\\\"").replace("C:\\" , "C:\\\\")),
         None => "".to_owned(),
     }
 }
 
-fn generate_method_input_serialization(service: &Service, operation: &Operation) -> Option<String> {
+fn generate_method_serialization(service: &Service, operation: &Operation) -> Option<String> {
 
 	// nothing to do if there's no input type
 	if operation.input.is_none() {
@@ -192,35 +194,68 @@ fn generate_uri_modification(service: &Service, operation: &Operation) -> Option
 
 fn generate_headers(service: &Service, operation: &Operation) -> Option<String> {
 
-	// nothing to do if there's no input type
-	if operation.input.is_none() {
-		return None;
-	}
+    // nothing to do if there's no input type
+    if operation.input.is_none() {
+        return None;
+    }
 
-	let shape = service.shapes.get(&operation.input.as_ref().unwrap().shape).unwrap();
+    let shape = service.shapes.get(&operation.input.as_ref().unwrap().shape).unwrap();
 
-	Some(shape.members.as_ref().unwrap().iter().filter_map(|(member_name, member)| {
-		if member.location.is_none() {
-			return None;
-		}
-		match &member.location.as_ref().unwrap()[..] {
-			"header" => {
-				if shape.required(&member_name) {
-					Some(format!("request.add_header(\"{location_name}\", &input.{field_name});",
-						location_name = member.location_name.as_ref().unwrap(),
-						field_name = member_name.to_snake_case()))        			
-				} else {
-					Some(format!("
-						if let Some(ref {field_name}) = input.{field_name} {{
-            				request.add_header(\"{location_name}\", &{field_name}.to_string());
-						}}",
-						location_name = member.location_name.as_ref().unwrap(),
-						field_name = member_name.to_snake_case()))
-				}
-			},
-			_ => None
-		}
-	}).collect::<Vec<String>>().join("\n"))
+    Some(shape.members.as_ref().unwrap().iter().filter_map(|(member_name, member)| {
+        if member.location.is_none() {
+            return None;
+        }
+        match &member.location.as_ref().unwrap()[..] {
+            "header" => {
+                if shape.required(&member_name) {
+                    Some(format!("request.add_header(\"{location_name}\", &input.{field_name});",
+                        location_name = member.location_name.as_ref().unwrap(),
+                        field_name = member_name.to_snake_case()))
+                } else {
+                    Some(format!("
+                        if let Some(ref {field_name}) = input.{field_name} {{
+                            request.add_header(\"{location_name}\", &{field_name}.to_string());
+                        }}",
+                        location_name = member.location_name.as_ref().unwrap(),
+                        field_name = member_name.to_snake_case()))
+                }
+            },
+            _ => None
+        }
+    }).collect::<Vec<String>>().join("\n"))
+}
+
+fn generate_parameters(service: &Service, operation: &Operation) -> Option<String> {
+
+    // nothing to do if there's no input type
+    if operation.input.is_none() {
+        return None;
+    }
+
+    let shape = service.shapes.get(&operation.input.as_ref().unwrap().shape).unwrap();
+
+    Some(shape.members.as_ref().unwrap().iter().filter_map(|(member_name, member)| {
+        if member.location.is_none() {
+            return None;
+        }
+        match &member.location.as_ref().unwrap()[..] {
+            "querystring" => {
+                if shape.required(&member_name) {
+                    Some(format!("params.put(\"{location_name}\", &input.{field_name}.to_string());",
+                        location_name = member.location_name.as_ref().unwrap(),
+                        field_name = member_name.to_snake_case()))
+                } else {
+                    Some(format!("
+                        if let Some(ref {field_name}) = input.{field_name} {{
+                            params.put(\"{location_name}\", &{field_name}.to_string());
+                        }}",
+                        location_name = member.location_name.as_ref().unwrap(),
+                        field_name = member_name.to_snake_case()))
+                }
+            },
+            _ => None
+        }
+    }).collect::<Vec<String>>().join("\n"))
 }
 
 fn generate_payload_serialization(shape: &Shape) -> String {
@@ -238,7 +273,7 @@ fn generate_payload_serialization(shape: &Shape) -> String {
 			format!(
 				"payload = Some({xml_type}Serializer::serialize(\"{xml_type}\", &input.{payload_field}).into_bytes());",
        	    	payload_field = payload_field.to_snake_case(),
-           		xml_type = payload_member.shape)			
+           		xml_type = payload_member.shape)
 		} else {
 			format!(
    	        	"if input.{payload_field}.is_some() {{
