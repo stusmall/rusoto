@@ -1,5 +1,7 @@
-use xmlutil::{XmlParseError, Peek, Next};
+use xmlutil::XmlParseError;
 use xmlutil::{characters, start_element, end_element, string_field, peek_at_name};
+use xml::reader::{EventReader, XmlEvent};
+use std::io::{BufReader, Read};
 
 #[derive(Default, Debug)]
 pub struct XmlError {
@@ -11,7 +13,7 @@ pub struct XmlError {
 
 pub struct XmlErrorDeserializer;
 impl XmlErrorDeserializer {
-	pub fn deserialize<'a, T: Peek + Next>(tag_name: &str, stack: &mut T) -> Result<XmlError, XmlParseError> {
+	pub fn deserialize<T:Read>(tag_name: &str, stack: &mut EventReader<T>) -> Result<XmlError, XmlParseError> {
 		try!(start_element(tag_name, stack));
 
 		let mut obj = XmlError::default();
