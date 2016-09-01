@@ -1,3 +1,4 @@
+extern crate stopwatch;
 use std::collections::BTreeMap;
 
 #[derive(Debug, Deserialize)]

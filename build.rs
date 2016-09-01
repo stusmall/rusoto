@@ -1,8 +1,10 @@
 extern crate rusoto_codegen;
+extern crate stopwatch;
 
 use std::env;
 use std::path::Path;
 
+use stopwatch::Stopwatch;
 use rusoto_codegen::{Service, generate};
 
 /*
@@ -69,9 +71,18 @@ fn main() {
         ["workspaces", "2015-04-08"]
     };
 
+    let overall_sw = Stopwatch::start_new();
     for service in services {
+        let mut sw = Stopwatch::start_new();
+        let mah_service = service.clone();
+        println!("service clone took {}ms", sw.elapsed_ms());
+        sw.restart();
+        let ref service_name = String::from(mah_service.name());
         generate(service, out_path);
+        println!("generation of {} took {}ms", service_name, sw.elapsed_ms());
     }
+    // see with cargo rustc --features ec2 -vv
+    println!("service generation total time: {}ms", overall_sw.elapsed_ms());
 
     let codegen_dir = Path::new("codegen");
 

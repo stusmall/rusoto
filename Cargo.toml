@@ -12,6 +12,7 @@ repository = "https://github.com/rusoto/rusoto"
 version = "0.16.0"
 
 [build-dependencies]
+stopwatch = "0.0.7"
 
 [build-dependencies.rusoto_codegen]
 default-features = false

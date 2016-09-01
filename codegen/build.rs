@@ -1,6 +1,7 @@
 #[cfg(not(feature = "serde_macros"))]
 mod inner {
     extern crate serde_codegen;
+    extern crate stopwatch;
 
     use std::env;
     use std::path::Path;
@@ -16,6 +17,7 @@ mod inner {
 }
 #[cfg(feature = "serde_macros")]
 mod inner {
+    extern crate stopwatch;
     pub fn main() {}
 }
 

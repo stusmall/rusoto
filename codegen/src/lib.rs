@@ -10,6 +10,7 @@ extern crate lazy_static;
 extern crate regex;
 extern crate serde;
 extern crate serde_json;
+extern crate stopwatch;
 
 #[cfg(not(feature = "serde_macros"))]
 extern crate serde_codegen;
@@ -20,6 +21,8 @@ use std::fs::File;
 use std::io::{Read, Write};
 use std::path::Path;
 
+use stopwatch::Stopwatch;
+
 use botocore::Service as BotocoreService;
 use generator::generate_source;
 
@@ -28,6 +31,7 @@ mod generator;
 
 const BOTOCORE_DIR: &'static str = concat!(env!("CARGO_MANIFEST_DIR"), "/botocore/botocore/data/");
 
+#[derive(Clone)]
 pub struct Service {
     name: String,
     protocol_date: String,
@@ -42,6 +46,12 @@ impl Service {
             protocol_date: protocol_date.into(),
         }
     }
+    pub fn name(self) -> String {
+        return self.name;
+    }
+    pub fn name_as_ref(&self) -> &str {
+        return &self.name;
+    }
 }
 
 pub fn generate(service: Service, output_path: &Path) {
@@ -50,10 +60,15 @@ pub fn generate(service: Service, output_path: &Path) {
     let botocore_service_data_path = Path::new(BOTOCORE_DIR)
         .join(format!("{}/{}/service-2.json", service.name, service.protocol_date));
 
+    let mut sw = Stopwatch::start_new();
     botocore_generate(botocore_service_data_path.as_path(),
                       botocore_destination_path.as_path());
+    println!("botocore_generate took {}ms", sw.elapsed_ms());
+    sw.restart();
     serde_generate(botocore_destination_path.as_path(),
                    serde_destination_path.as_path());
+    println!("serde_generate took {}ms", sw.elapsed_ms());
+    sw.restart();
 }
 
 fn botocore_generate(input_path: &Path, output_path: &Path) {
@@ -62,12 +77,14 @@ fn botocore_generate(input_path: &Path, output_path: &Path) {
         input_path,
     ));
 
-    let mut service_data = String::new();
+    let mut service_data = String::with_capacity(261632);
 
     input_file.read_to_string(&mut service_data).expect(&format!(
         "Failed to read {:?}",
         input_path,
     ));
+
+    println!("service_data capacity: {}", service_data.capacity());
 
     let service: BotocoreService = serde_json::from_str(&service_data).expect(&format!(
         "Could not convert JSON in {:?} to Service",

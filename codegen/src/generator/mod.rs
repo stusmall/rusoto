@@ -1,3 +1,4 @@
+extern crate stopwatch;
 use inflector::Inflector;
 
 use botocore::{Service, Shape, ShapeType, Operation};
@@ -7,6 +8,7 @@ use self::json::JsonGenerator;
 use self::query::QueryGenerator;
 use self::rest_json::RestJsonGenerator;
 use self::error_types::{GenerateErrorTypes, JsonErrorTypes, XmlErrorTypes};
+use stopwatch::Stopwatch;
 
 mod error_types;
 mod ec2;
@@ -49,6 +51,19 @@ pub fn generate_source(service: &Service) -> String {
 }
 
 fn generate<P, E>(service: &Service, protocol_generator: P, error_type_generator: E) -> String where P: GenerateProtocol,  E: GenerateErrorTypes {
+    let mut sw = Stopwatch::start_new();
+    let client = generate_client(service, &protocol_generator);
+    println!("generate_client took {}ms", sw.elapsed_ms());
+    sw.restart();
+    let prelude = protocol_generator.generate_prelude(service);
+    println!("generate_prelude took {}ms", sw.elapsed_ms());
+    sw.restart();
+    let types = generate_types(service, &protocol_generator);
+    println!("generate_types took {}ms", sw.elapsed_ms());
+    sw.restart();
+    let error_types = error_type_generator.generate_error_types(service).unwrap_or("".to_string());
+    println!("generate_error_types took {}ms", sw.elapsed_ms());
+    sw.restart();
     format!(
         "
         use hyper::Client;
@@ -89,7 +104,7 @@ where P: GenerateProtocol {
 
         impl<P> {type_name}<P, Client> where P: ProvideAwsCredentials {{
             pub fn new(credentials_provider: P, region: region::Region) -> Self {{
-                let mut client = Client::new();                
+                let mut client = Client::new();
                 client.set_redirect_policy(RedirectPolicy::FollowNone);
                {type_name}::with_request_dispatcher(client, credentials_provider, region)
             }}

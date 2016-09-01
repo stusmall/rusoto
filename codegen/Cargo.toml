@@ -17,6 +17,10 @@ lazy_static = "0.1.16"
 regex = "0.1.65"
 serde = "0.8.0"
 serde_json = "0.8.0"
+stopwatch = "0.0.7"
+
+[build-dependencies]
+stopwatch = "0.0.7"
 
 [dependencies.clippy]
 optional = true
