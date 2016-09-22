@@ -64,6 +64,9 @@ fn generate<P, E>(service: &Service, protocol_generator: P, error_type_generator
     let error_types = error_type_generator.generate_error_types(service).unwrap_or("".to_string());
     println!("generate_error_types took {}ms", sw.elapsed_ms());
     sw.restart();
+    let tests = protocol_generator.generate_tests(service).unwrap_or("".to_string());
+    println!("generate_tests took {}ms", sw.elapsed_ms());
+    sw.restart();
     format!(
         "
         use hyper::Client;
@@ -84,11 +87,11 @@ fn generate<P, E>(service: &Service, protocol_generator: P, error_type_generator
         {client}
         
         {tests}",
-        client = generate_client(service, &protocol_generator),
-        prelude = &protocol_generator.generate_prelude(service),
-        types = generate_types(service, &protocol_generator),
-        error_types = error_type_generator.generate_error_types(service).unwrap_or("".to_string()),
-        tests = &protocol_generator.generate_tests(service).unwrap_or("".to_string()),
+        client = client,
+        prelude = &prelude,
+        types = types,
+        error_types = error_types,
+        tests = &tests,
     )
 }
 
