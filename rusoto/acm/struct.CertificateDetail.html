@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `CertificateDetail` struct in crate `rusoto`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, CertificateDetail">
+
+    <title>rusoto::acm::CertificateDetail - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>rusoto</a>::<wbr><a href='index.html'>acm</a></p><script>window.sidebarCurrent = {name: 'CertificateDetail', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rusoto</a>::<wbr><a href='index.html'>acm</a>::<wbr><a class='struct' href=''>CertificateDetail</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1444' class='srclink' href='../../src/rusoto/Users/travis/build/rusoto/rusoto/target/debug/build/rusoto-22a01c2f7c0a0441/out/acm.rs.html#774-839' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct CertificateDetail {
+    pub certificate_arn: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.Arn.html' title='rusoto::acm::Arn'>Arn</a>&gt;,
+    pub created_at: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.TStamp.html' title='rusoto::acm::TStamp'>TStamp</a>&gt;,
+    pub domain_name: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.DomainNameString.html' title='rusoto::acm::DomainNameString'>DomainNameString</a>&gt;,
+    pub domain_validation_options: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.DomainValidationList.html' title='rusoto::acm::DomainValidationList'>DomainValidationList</a>&gt;,
+    pub in_use_by: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.InUseList.html' title='rusoto::acm::InUseList'>InUseList</a>&gt;,
+    pub issued_at: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.TStamp.html' title='rusoto::acm::TStamp'>TStamp</a>&gt;,
+    pub issuer: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;,
+    pub key_algorithm: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.KeyAlgorithm.html' title='rusoto::acm::KeyAlgorithm'>KeyAlgorithm</a>&gt;,
+    pub not_after: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.TStamp.html' title='rusoto::acm::TStamp'>TStamp</a>&gt;,
+    pub not_before: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.TStamp.html' title='rusoto::acm::TStamp'>TStamp</a>&gt;,
+    pub revocation_reason: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.RevocationReason.html' title='rusoto::acm::RevocationReason'>RevocationReason</a>&gt;,
+    pub revoked_at: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.TStamp.html' title='rusoto::acm::TStamp'>TStamp</a>&gt;,
+    pub serial: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;,
+    pub signature_algorithm: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;,
+    pub status: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.CertificateStatus.html' title='rusoto::acm::CertificateStatus'>CertificateStatus</a>&gt;,
+    pub subject: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;,
+    pub subject_alternative_names: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.DomainList.html' title='rusoto::acm::DomainList'>DomainList</a>&gt;,
+}</pre><div class='docblock'><p> This structure is returned in the response object of the <a>DescribeCertificate</a> action. </p>
+</div><h2 class='fields'>Fields</h2><span id='structfield.certificate_arn' class='structfield'><code>certificate_arn: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.Arn.html' title='rusoto::acm::Arn'>Arn</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> Amazon Resource Name (ARN) of the certificate. This is of the form: </p> <p> <code>arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012</code> </p> <p> For more information about ARNs, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service Namespaces</a>. </p>
+</div><span id='structfield.created_at' class='structfield'><code>created_at: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.TStamp.html' title='rusoto::acm::TStamp'>TStamp</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> Time at which the certificate was requested. </p>
+</div><span id='structfield.domain_name' class='structfield'><code>domain_name: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.DomainNameString.html' title='rusoto::acm::DomainNameString'>DomainNameString</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> Fully qualified domain name (FQDN), such as www.example.com or example.com, for the certificate. </p>
+</div><span id='structfield.domain_validation_options' class='structfield'><code>domain_validation_options: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.DomainValidationList.html' title='rusoto::acm::DomainValidationList'>DomainValidationList</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> References a <a>DomainValidation</a> structure that contains the domain name in the certificate and the email address that can be used for validation. </p>
+</div><span id='structfield.in_use_by' class='structfield'><code>in_use_by: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.InUseList.html' title='rusoto::acm::InUseList'>InUseList</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> List that identifies ARNs that are using the certificate. A single ACM Certificate can be used by multiple AWS resources. </p>
+</div><span id='structfield.issued_at' class='structfield'><code>issued_at: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.TStamp.html' title='rusoto::acm::TStamp'>TStamp</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> Time at which the certificate was issued. </p>
+</div><span id='structfield.issuer' class='structfield'><code>issuer: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> The X.500 distinguished name of the CA that issued and signed the certificate. </p>
+</div><span id='structfield.key_algorithm' class='structfield'><code>key_algorithm: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.KeyAlgorithm.html' title='rusoto::acm::KeyAlgorithm'>KeyAlgorithm</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> Asymmetric algorithm used to generate the public and private key pair. Currently the only supported value is <code>RSA_2048</code>. </p>
+</div><span id='structfield.not_after' class='structfield'><code>not_after: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.TStamp.html' title='rusoto::acm::TStamp'>TStamp</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> Time after which the certificate is not valid. </p>
+</div><span id='structfield.not_before' class='structfield'><code>not_before: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.TStamp.html' title='rusoto::acm::TStamp'>TStamp</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> Time before which the certificate is not valid. </p>
+</div><span id='structfield.revocation_reason' class='structfield'><code>revocation_reason: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.RevocationReason.html' title='rusoto::acm::RevocationReason'>RevocationReason</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> A <code>RevocationReason</code> enumeration value that indicates why the certificate was revoked. This value exists only if the certificate has been revoked. This can be one of the following vales: <ul> <li><p>UNSPECIFIED</p></li> <li><p>KEY_COMPROMISE</p></li> <li><p>CA_COMPROMISE</p></li> <li><p>AFFILIATION_CHANGED</p></li> <li><p>SUPERCEDED</p></li> <li><p>CESSATION_OF_OPERATION</p></li> <li><p>CERTIFICATE_HOLD</p></li> <li><p>REMOVE_FROM_CRL</p></li> <li><p>PRIVILEGE_WITHDRAWN</p></li> <li><p>A_A_COMPROMISE</p></li> </ul> </p>
+</div><span id='structfield.revoked_at' class='structfield'><code>revoked_at: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.TStamp.html' title='rusoto::acm::TStamp'>TStamp</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> The time, if any, at which the certificate was revoked. This value exists only if the certificate has been revoked. </p>
+</div><span id='structfield.serial' class='structfield'><code>serial: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> String that contains the serial number of the certificate. </p>
+</div><span id='structfield.signature_algorithm' class='structfield'><code>signature_algorithm: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> Algorithm used to generate a signature. Currently the only supported value is <code>SHA256WITHRSA</code>. </p>
+</div><span id='structfield.status' class='structfield'><code>status: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.CertificateStatus.html' title='rusoto::acm::CertificateStatus'>CertificateStatus</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> A <code>CertificateStatus</code> enumeration value that can contain one of the following: <ul> <li><p>PENDING_VALIDATION</p></li> <li><p>ISSUED</p></li> <li><p>INACTIVE</p></li> <li><p>EXPIRED</p></li> <li><p>REVOKED</p></li> <li><p>FAILED</p></li> <li><p>VALIDATION_TIMED_OUT</p></li> </ul> </p>
+</div><span id='structfield.subject' class='structfield'><code>subject: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> The X.500 distinguished name of the entity associated with the public key contained in the certificate. </p>
+</div><span id='structfield.subject_alternative_names' class='structfield'><code>subject_alternative_names: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='type' href='../../rusoto/acm/type.DomainList.html' title='rusoto::acm::DomainList'>DomainList</a>&gt;</code>
+                           </span><span class='stab '></span><div class='docblock'><p> One or more domain names (subject alternative names) included in the certificate request. After the certificate is issued, this list includes the domain names bound to the public key contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website. </p>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html' title='core::default::Default'>Default</a> for <a class='struct' href='../../rusoto/acm/struct.CertificateDetail.html' title='rusoto::acm::CertificateDetail'>CertificateDetail</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1400' class='srclink' href='../../src/rusoto/Users/travis/build/rusoto/rusoto/target/debug/build/rusoto-22a01c2f7c0a0441/out/acm.rs.html#773' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.default' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; <a class='struct' href='../../rusoto/acm/struct.CertificateDetail.html' title='rusoto::acm::CertificateDetail'>CertificateDetail</a></code></h4>
+<div class='docblock'><p>Returns the &quot;default value&quot; for a type. <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../rusoto/acm/struct.CertificateDetail.html' title='rusoto::acm::CertificateDetail'>CertificateDetail</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1402' class='srclink' href='../../src/rusoto/Users/travis/build/rusoto/rusoto/target/debug/build/rusoto-22a01c2f7c0a0441/out/acm.rs.html#773' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../rusoto/acm/struct.CertificateDetail.html' title='rusoto::acm::CertificateDetail'>CertificateDetail</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1424' class='srclink' href='../../src/rusoto/Users/travis/build/rusoto/rusoto/target/debug/build/rusoto-22a01c2f7c0a0441/out/acm.rs.html#773' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../rusoto/acm/struct.CertificateDetail.html' title='rusoto::acm::CertificateDetail'>CertificateDetail</a></code></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "rusoto";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>
